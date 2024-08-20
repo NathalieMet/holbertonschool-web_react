@@ -23,9 +23,11 @@
 
 .App-body p {
   font-size: 25px;
-  margin-bottom: 400px;
   margin-left: 3em;
+}
 
+.App-body {
+  padding-bottom: 300px;
 }
 
 .App-footer {
@@ -34,3 +36,10 @@
   font-size: 25px;
 }
 
+.label_email {
+  margin-left: 4.5em;
+}
+
+.label_password {
+  margin-left: 1em;
+}
