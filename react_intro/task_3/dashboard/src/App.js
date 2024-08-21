@@ -26,7 +26,7 @@ function Header() {
 
 function Body() {
 	return (
-		<body class="App-body">
+		<body className="App-body">
 			<p>Login to access the full dashboard</p>
 			<label htmlFor="email" className='label_email'>Email:</label>
 			<input type="email" id="email" name="email"></input>
@@ -39,7 +39,7 @@ function Body() {
 
 function Footer() {
 	return (
-		<footer class="App-footer">
+		<footer className="App-footer">
 		<div className="trait"></div>
 		Copyright {getFullYear()} - {getFooterCopy(true)}
 		</footer>

@@ -2,7 +2,7 @@ import './Notifications.css';
 import React from 'react';
 import { getLatestNotification } from './utils';
 
-export function Notifications() {
+export default function Notifications() {
 
 	const handleClick = () => {
 		console.log('Close button has been clicked');
