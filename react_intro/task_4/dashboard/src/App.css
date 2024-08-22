@@ -1,0 +1,45 @@
+.App-header {
+  display: flex;
+  justify-content: LEFT;
+  flex-direction: column;
+}
+
+.Header-content {
+  display: flex;
+  align-items: center;
+}
+
+.Header-content h1 {
+  color: #E0354B;
+  font-size: 50px;
+}
+
+.trait {
+  border-bottom: 5px solid #E0354B;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 2em;
+}
+
+.App-body p {
+  font-size: 25px;
+  margin-left: 3em;
+}
+
+.App-body {
+  padding-bottom: 300px;
+}
+
+.App-footer {
+  font-style: italic;
+  text-align: center;
+  font-size: 25px;
+}
+
+.label_email {
+  margin-left: 4.5em;
+}
+
+.label_password {
+  margin-left: 1em;
+}

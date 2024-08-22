@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "webpack serve --open"
+    "build": "webpack --config dashboard/config/webpack.config.js",
+    "start": "webpack serve --open --config dashboard/config/webpack.config.js"
   },
   "keywords": [],
   "author": "",
