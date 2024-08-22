@@ -27,7 +27,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
@@ -38,9 +38,12 @@ module.exports = {
             },
         ],
     },
+    resolve: {
+        extensions: ['.js', '.jsx'], // Résoudre les extensions .js et .jsx
+    },
     devServer: {
         static: {
-            directory: path.join(__dirname, '../dist'), // Remplacer contentBase par static
+            directory: path.join(__dirname, '../dist'),
         },
         hot: true,
         open: true, // Ouvrir automatiquement le navigateur
