@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import Notifications from './Notifications';
+import App from './App/App';
+import Notifications from './Notifications/Notifications';
 
 // Vérifier et rendre les notifications
 const notificationsElement = document.querySelector('.root-notifications');
