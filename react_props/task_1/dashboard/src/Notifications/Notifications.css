@@ -1,0 +1,13 @@
+.Notifications {
+	border: 3px dashed red ;
+	padding: 10px;
+	position: relative;
+}
+
+.default {
+	color: blue;
+}
+
+.urgent {
+	color: red;
+}
