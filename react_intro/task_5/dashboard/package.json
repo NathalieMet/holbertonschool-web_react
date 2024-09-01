@@ -41,7 +41,6 @@
     "web-vitals": "^2.1.4"
   },
   "jest": {
-  "testEnvironment": "jsdom",
   "setupFilesAfterEnv": ["<rootDir>/config/setupTests.js"],
   "moduleNameMapper": {
     "\\.(css|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"

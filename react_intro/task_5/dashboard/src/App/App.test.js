@@ -1,24 +1,24 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import App from './App';
 
 describe('App Component', () => {
   it('renders App without crashing', () => {
-    mount(<App />);
+    shallow(<App />);
   });
 
   it('renders a div with the class App-header', () => {
-    const wrapper = mount(<App />);
-    expect(wrapper.find('.App-header').length).toBe(1);
+    const wrapper = shallow(<App />);
+    expect(wrapper.find('Header').dive().find('.App-header').length).toBe(1);
   });
 
   it('renders a div with the class App-body', () => {
-    const wrapper = mount(<App />);
-    expect(wrapper.find('.App-body').length).toBe(1);
+    const wrapper = shallow(<App />);
+    expect(wrapper.find('Body').dive().find('.App-body').length).toBe(1);
   });
 
   it('renders a div with the class App-footer', () => {
-    const wrapper = mount(<App />);
-    expect(wrapper.find('.App-footer').length).toBe(1);
+    const wrapper = shallow(<App />);
+    expect(wrapper.find('Footer').dive().find('.App-footer').length).toBe(1);
   });
 });

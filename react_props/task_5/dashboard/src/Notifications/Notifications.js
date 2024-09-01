@@ -17,16 +17,18 @@ export default function Notifications({ displayDrawer, listNotifications }) {
 			</div>
 			{displayDrawer && (
 				<div className='Notifications'>
-					<p>Here is the list of notifications</p>
+					{listNotifications && listNotifications.length > 0 && (
+						<p>Here is the list of notifications</p>
+					)}
 					<button style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none' }} aria-label='Close' onClick={handleClick}>X</button>
 					<ul>
-					{listNotifications.length > 0 ? (
-						listNotifications.map(({ id, html, type, value }) => (
-							<NotificationItem key={id} html={html} type={type} value={value} />
-						))
-					) : (
-						<li>No new notification for now</li>
-					)}
+						{listNotifications.length > 0 ? (
+							listNotifications.map(({ id, html, type, value }) => (
+								<NotificationItem key={id} html={html} type={type} value={value} />
+							))
+						) : (
+							<li>No new notification for now</li>
+						)}
 					</ul>
 				</div>
 			)}
