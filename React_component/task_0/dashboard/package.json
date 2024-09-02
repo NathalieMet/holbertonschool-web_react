@@ -5,7 +5,8 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --config config/webpack.config.js",
     "test": "jest",
-    "build": "webpack --config config/webpack.config.js"
+    "build": "webpack --config config/webpack.config.js",
+    "test-watch": "jest --watch"
   },
   "keywords": [],
   "author": "",
@@ -35,16 +36,18 @@
   },
   "dependencies": {
     "jquery": "^3.7.1",
+    "prop-types": "^15.8.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^2.1.4"
   },
   "jest": {
-  "setupFilesAfterEnv": ["<rootDir>/config/setupTests.js"],
-  "moduleNameMapper": {
-    "\\.(css|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+    "setupFilesAfterEnv": [
+      "<rootDir>/config/setupTests.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+    }
   }
-}
-
 }

@@ -1,54 +1,48 @@
 import React, { Component } from 'react';
-import img1 from '../assets/holberton-logo.jpg'
 import './App.css'
-import { getFullYear, getFooterCopy } from '../utils/utils.js';
+import Notifications from '../Notifications/Notifications.js'
+import Body from '../Login/Login.js'
+import Footer from '../Footer/Footer.js'
+import Header from '../Header/Header.js'
+import PropTypes from 'prop-types';
+import CourseList from '../CourseList/CourseList.js'
+import { getLatestNotification } from '../utils/utils';
 
 class App extends Component {
 	render() {
-	return (
-		<div className="App">
-			<Header />
-			<Body />
-			<Footer />
-		</div>
-	);
-}
+		const { listNotifications, isLoggedIn, listCourses } = this.props;
+
+		return (
+			<React.Fragment>
+				<Notifications listNotifications={listNotifications}/>
+				<div className="App">
+					<Header />
+					{isLoggedIn ? <CourseList listCourses={listCourses} /> : <Body />}
+					<Footer />
+				</div>
+			</React.Fragment>
+		);
+	}
 }
 
-function Header() {
-	return (
-		<header className="App-header">
-      <div className="Header-content">
-        <img src={img1} alt="Logo" />
-        <h1>School dashboard</h1>
-      </div>
-			<div className="trait"></div>
-    </header>
-  );
-}
+const listCourses = [
+	{ id: 1, name: 'ES6', credit: 60 },
+	{ id: 2, name: 'Webpack', credit: 20 },
+	{ id: 3, name: 'React', credit: 40 },
+];
 
-function Body() {
-	return (
-		<div className="App-body">
-			<p>Login to access the full dashboard</p>
-			<label htmlFor="email" className='label_email'>Email:</label>
-			<input type="email" id="email" name="email"></input>
-			<label htmlFor="password" className='label_password'>Password:</label>
-			<input type="password" id="password" name="password"></input>
-			<button>OK</button>
-		</div>
-	);
-}
+const listNotifications = [
+	{ id: 1, type: "default", value: "New course available"},
+		{ id: 2, type: "urgent", value: "New resume available"},
+		{ id: 3, html: { __html: getLatestNotification() }, type: "urgent"}
+];
 
-function Footer() {
-	return (
-		<footer className="App-footer">
-		<div className="trait"></div>
-		Copyright {getFullYear()} - {getFooterCopy(true)}
-		</footer>
-	);
-}
+App.propTypes = {
+	isLoggedIn: PropTypes.bool,
+};
+
+App.defaultProps = {
+	isLoggedIn: false,
+};
 
 export default App;
-
-

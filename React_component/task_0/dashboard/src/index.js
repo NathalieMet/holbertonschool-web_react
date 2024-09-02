@@ -1,20 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App/App';
-import Notifications from './Notifications/Notifications';
-
-// Vérifier et rendre les notifications
-const notificationsElement = document.querySelector('.root-notifications');
-if (notificationsElement) {
-    const notificationsRoot = ReactDOM.createRoot(notificationsElement);
-    notificationsRoot.render(
-        <React.StrictMode>
-            <Notifications />
-        </React.StrictMode>
-    );
-} else {
-    console.error('Failed to find the notifications root element');
-}
 
 // Vérifier et rendre l'application principale
 const rootElement = document.getElementById('root');

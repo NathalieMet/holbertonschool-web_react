@@ -7,18 +7,30 @@ describe('App Component', () => {
     shallow(<App />);
   });
 
-  it('renders a div with the class App-header', () => {
+  it('should contain Notifications, Header, Footer, Login', () => {
     const wrapper = shallow(<App />);
-    expect(wrapper.find('Header').dive().find('.App-header').length).toBe(1);
+
+    expect(wrapper.find('Notifications').length).toBe(1);
+    expect(wrapper.find('Header').length).toBe(1);
+    expect(wrapper.find('Login').length).toBe(1);
+    expect(wrapper.find('Footer').length).toBe(1);
   });
 
-  it('renders a div with the class App-body', () => {
+  it('should not display CourseList', () => {
     const wrapper = shallow(<App />);
-    expect(wrapper.find('Body').dive().find('.App-body').length).toBe(1);
+    expect(wrapper.find('CourseList').length).toBe(0);
+  });
+})
+
+describe('App Component', () => {
+  it('should not display login', () => {
+    const wrapper = shallow(<App isLoggedIn={true}/>);
+    expect(wrapper.find('Login').length).toBe(0);
   });
 
-  it('renders a div with the class App-footer', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find('Footer').dive().find('.App-footer').length).toBe(1);
+  it('should display CourseList', () => {
+    const wrapper = shallow(<App isLoggedIn={true}/>);
+    expect(wrapper.find('CourseList').length).toBe(1);
   });
-});
+
+})
