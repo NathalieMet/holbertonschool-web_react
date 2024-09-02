@@ -1,0 +1,35 @@
+
+/* Bordure pour chaque cellule */
+table#CourseList, th {
+	border: 2px solid rgb(209, 203, 203); /* Bordure noire pour les cellules */
+	border-collapse: collapse; /* Évite les doubles bordures */
+  }
+
+  /* Centrer le texte des cellules d'en-tête */
+  th {
+	text-align: center; /* Centre le texte dans les cellules d'en-tête */
+	padding: 5px; /* Ajoute de l'espace autour du texte */
+  }
+
+  /* Ajoute de l'espace entre les colonnes */
+  td {
+	padding: 3px; /* Ajoute de l'espace autour du texte */
+  }
+
+  /* Style optionnel pour améliorer l'apparence du tableau */
+  #CourseList {
+	width: 80%; /* Le tableau prend toute la largeur disponible */
+	margin: 20px auto; /* Centre le tableau dans la page */
+  }
+
+  th:first-child {
+	border-right: none; /* Supprime la bordure droite du premier th */
+  }
+
+  th:nth-child(2) {
+	border-left: none; /* Supprime la bordure gauche du second th */
+  }
+
+  th:not([colSpan='2']) {
+	text-align: left;
+  }
