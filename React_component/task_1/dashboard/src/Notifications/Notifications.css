@@ -1,0 +1,22 @@
+.Notifications {
+	border: 3px dashed red;
+	padding: 10px;
+	position: absolute;
+	margin-top: 1em;
+	right: 0;          /* Aligne à droite */
+	width: 33.33%;     /* Prend un tiers de la largeur de la fenêtre */
+	height: 20vh;     /* Prend toute la hauteur de la fenêtre */
+	box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
+  }
+
+.default {
+	color: blue;
+}
+
+.urgent {
+	color: red;
+}
+
+.menuItem {
+	text-align: right;
+}
