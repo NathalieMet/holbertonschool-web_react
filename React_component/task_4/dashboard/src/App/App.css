@@ -1,0 +1,15 @@
+.trait {
+  border-bottom: 5px solid #E0354B;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 2em;
+}
+
+.App-body p {
+  font-size: 25px;
+  margin-left: 3em;
+}
+
+.App-body {
+  padding-bottom: 300px;
+}
