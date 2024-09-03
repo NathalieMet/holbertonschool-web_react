@@ -15,4 +15,9 @@ class BodySection extends Component {
 	}
 }
 
+BodySection.propTypes = {
+	title: PropTypes.string,
+	children: PropTypes.node,
+};
+
 export default BodySection;
