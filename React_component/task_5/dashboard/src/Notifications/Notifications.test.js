@@ -125,3 +125,47 @@ describe('Notifications Component', () => {
     spy.mockRestore();
   });
 });
+
+describe('Notifications component', () => {
+  it('should not re-render when updating with the same list', () => {
+    const listNotifications = [
+      { id: 1, type: 'default', value: 'New course available' },
+      { id: 2, type: 'urgent', value: 'New resume available' }
+    ];
+
+    const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+
+    const shouldUpdateSpy = jest.spyOn(Notifications.prototype, 'shouldComponentUpdate');
+
+    // Met à jour les props avec la même liste
+    wrapper.setProps({ listNotifications });
+
+    // Vérifie que `shouldComponentUpdate` a retourné false
+    expect(shouldUpdateSpy).toHaveReturnedWith(false);
+  });
+});
+
+it('should re-render when updating with a longer list', () => {
+  const listNotifications = [
+    { id: 1, type: 'default', value: 'New course available' },
+    { id: 2, type: 'urgent', value: 'New resume available' }
+  ];
+
+  const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+
+  const shouldUpdateSpy = jest.spyOn(Notifications.prototype, 'shouldComponentUpdate');
+
+  // Met à jour les props avec une liste plus longue
+  const newListNotifications = [
+    { id: 1, type: 'default', value: 'New course available' },
+    { id: 2, type: 'urgent', value: 'New resume available' },
+    { id: 3, type: 'default', value: 'New notification' }
+  ];
+
+  wrapper.setProps({ listNotifications: newListNotifications });
+
+  // Vérifie que `shouldComponentUpdate` a retourné true
+  expect(shouldUpdateSpy).toHaveReturnedWith(true);
+});
+
+

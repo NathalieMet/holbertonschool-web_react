@@ -33,7 +33,19 @@ class App extends Component {
 	  }
 
 	render() {
-		const { listNotifications, isLoggedIn, listCourses } = this.props;
+		const { isLoggedIn } = this.props;
+
+		const listCourses = [
+			{ id: 1, name: 'ES6', credit: 60 },
+			{ id: 2, name: 'Webpack', credit: 20 },
+			{ id: 3, name: 'React', credit: 40 },
+		];
+
+		const listNotifications = [
+			{ id: 1, type: "default", value: "New course available"},
+				{ id: 2, type: "urgent", value: "New resume available"},
+				{ id: 3, html: { __html: getLatestNotification() }, type: "urgent"}
+		];
 
 		return (
 			<React.Fragment>
@@ -47,18 +59,6 @@ class App extends Component {
 		);
 	}
 }
-
-const listCourses = [
-	{ id: 1, name: 'ES6', credit: 60 },
-	{ id: 2, name: 'Webpack', credit: 20 },
-	{ id: 3, name: 'React', credit: 40 },
-];
-
-const listNotifications = [
-	{ id: 1, type: "default", value: "New course available"},
-		{ id: 2, type: "urgent", value: "New resume available"},
-		{ id: 3, html: { __html: getLatestNotification() }, type: "urgent"}
-];
 
 App.propTypes = {
 	isLoggedIn: PropTypes.bool,
