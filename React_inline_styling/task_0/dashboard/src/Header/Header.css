@@ -1,0 +1,22 @@
+.App-header {
+	display: flex;
+	justify-content: LEFT;
+	flex-direction: column;
+  }
+
+  .Header-content {
+	display: flex;
+	align-items: center;
+  }
+
+  .Header-content h1 {
+	color: #E0354B;
+	font-size: 50px;
+  }
+
+  .trait {
+	border-bottom: 5px solid #E0354B;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 2em;
+  }
