@@ -1,33 +1,24 @@
 import React from 'react';
+import { mount } from 'enzyme';
 import App from './App';
 
-// Test that App renders without crashing
-test('renders App without crashing', () => {
-  //render(<App />);
+describe('App Component', () => {
+  it('renders App without crashing', () => {
+    mount(<App />);
+  });
+
+  it('renders a div with the class App-header', () => {
+    const wrapper = mount(<App />);
+    expect(wrapper.find('.App-header').length).toBe(1);
+  });
+
+  it('renders a div with the class App-body', () => {
+    const wrapper = mount(<App />);
+    expect(wrapper.find('.App-body').length).toBe(1);
+  });
+
+  it('renders a div with the class App-footer', () => {
+    const wrapper = mount(<App />);
+    expect(wrapper.find('.App-footer').length).toBe(1);
+  });
 });
-
-test('renders a div with the class App-header', () => {
-	//const { container } = render(<App />);
-
-	// Trouver l'élément avec la classe "App-header"
-	//const headerElement = container.querySelector('.App-header');
-
-	// Vérifier que l'élément est présent dans le document
-	//expect(headerElement).toBeInTheDocument();
-  });
-
-test('renders a div with the class App-header', () => {
-	//const { container } = render(<App />);
-
-	//const headerElement = container.querySelector('.App-body');
-
-	//expect(headerElement).toBeInTheDocument();
-  });
-
-test('renders a div with the class App-header', () => {
-	//const { container } = render(<App />);
-
-	//const headerElement = container.querySelector('.App-footer');
-
-	//expect(headerElement).toBeInTheDocument();
-  });
