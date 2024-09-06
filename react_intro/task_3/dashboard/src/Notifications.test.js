@@ -1,27 +1,23 @@
 import React from 'react';
+import { shallow } from 'enzyme';
 import Notifications from './Notifications';
 
-// Test that Notifications renders without crashing
-test('renders Notifications without crashing', () => {
-  // render(<Notifications />);
+describe('Notifications Component', () => {
+
+  // Test that Notifications renders without crashing
+  it('renders Notifications without crashing', () => {
+    shallow(<Notifications />);
+  });
+
+  // Test that the component renders three list items
+  it('renders three list items', () => {
+    const wrapper = shallow(<Notifications />);
+    expect(wrapper.find('li').length).toBe(3);
+  });
+
+  // Test that the component renders the text "Here is the list of notifications"
+  it('renders the text "Here is the list of notifications"', () => {
+    const wrapper = shallow(<Notifications />);
+    expect(wrapper.contains(<p>Here is the list of notifications</p>)).toBe(true);
+  });
 });
-
-test('renders three list items', () => {
-	// render(<Notifications />);
-
-  // Trouver tous les éléments <li>
-  //const listItems = screen.getAllByRole('listitem');
-
-  // Vérifier qu'il y a exactement trois éléments <li>
-  //expect(listItems).toHaveLength(3);
-  });
-
-  test('renders the text "Here is the list of notifications"', () => {
-    //render(<Notifications />);
-
-    // Vérifier que le texte "Here is the list of notifications" est présent
-    //const notificationText = screen.getByText('Here is the list of notifications');
-
-    // Vérifier que cet élément est dans le document
-    //expect(notificationText).toBeInTheDocument();
-  });
