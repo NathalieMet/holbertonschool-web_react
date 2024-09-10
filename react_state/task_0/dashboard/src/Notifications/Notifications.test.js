@@ -175,4 +175,36 @@ it('should re-render when updating with a longer list', () => {
   expect(shouldUpdateSpy).toHaveReturnedWith(true);
 });
 
+describe('Notifications component tests', () => {
+  it('should call handleDisplayDrawer when clicking on the menu item', () => {
+    const handleDisplayDrawerMock = jest.fn();
+    const wrapper = shallow(
+      <Notifications
+        displayDrawer={false}
+        handleDisplayDrawer={handleDisplayDrawerMock}
+        handleHideDrawer={jest.fn()}
+      />
+    );
 
+    // Simuler le clic sur le menu des notifications
+    wrapper.find('[data-testid="menuItem"]').simulate('click');
+
+    // Vérifier que la fonction mock est appelée
+    expect(handleDisplayDrawerMock).toHaveBeenCalled();
+  });
+
+  it('should call handleHideDrawer when clicking on the button', () => {
+    const handleHideDrawerMock = jest.fn();
+    const wrapper = shallow(
+      <Notifications
+        displayDrawer={true}
+        handleHideDrawer={handleHideDrawerMock}
+        handleDisplayDrawer={jest.fn()}
+      />
+    );
+
+    wrapper.find('[data-testid="close-button"]').simulate('click');
+
+    expect(handleHideDrawerMock).toHaveBeenCalled();
+  });
+});

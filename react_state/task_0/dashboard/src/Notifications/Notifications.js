@@ -15,14 +15,14 @@ class Notifications extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		if (nextProps.listNotifications.length > this.props.listNotifications.length) {
+		if (nextProps.listNotifications.length > this.props.listNotifications.length || nextProps.displayDrawer !== this.props.displayDrawer) {
 		  return true;
 		}
 		return false;
 	  }
 
 	render() {
-		const { displayDrawer, listNotifications } = this.props;
+		const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer } = this.props;
 
 	const handleClick = () => {
 		console.log('Close button has been clicked');
@@ -31,7 +31,7 @@ class Notifications extends Component {
 	return (
 		<React.Fragment>
 			{!displayDrawer && (
-          <div className={css(styles.menuItem)}>
+          <div data-testid='menuItem' className={css(styles.menuItem)} onClick={handleDisplayDrawer}>
             Your notifications
           </div>
         )}
@@ -40,7 +40,7 @@ class Notifications extends Component {
 					{listNotifications && listNotifications.length > 0 && (
 						<p className={css(styles.text)}>Here is the list of notifications</p>
 					)}
-					<button className={css(styles.closeButton)} aria-label='Close' onClick={handleClick}>X</button>
+					<button data-testid='close-button' onClick={() => { handleHideDrawer(); handleClick(); }} className={css(styles.closeButton)} aria-label='Close'>X</button>
 					<ul className={css(styles.list)}>
 						{listNotifications.length > 0 ? (
 							listNotifications.map(({ id, html, type, value }) => (
@@ -141,11 +141,15 @@ const styles = StyleSheet.create({
 Notifications.propTypes = {
 	displayDrawer: PropTypes.bool,
 	listNotifications: PropTypes.arrayOf(NotificationItemShape),
+	handleDisplayDrawer: PropTypes.func,
+	handleHideDrawer: PropTypes.func
 };
 
 Notifications.defaultProps = {
 	displayDrawer: false,
 	listNotifications: [],
+	handleDisplayDrawer: () => {},
+	handleHideDrawer: () => {}
 };
 
 export default Notifications;

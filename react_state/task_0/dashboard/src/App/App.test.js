@@ -10,12 +10,15 @@ jest.mock('aphrodite', () => ({
 }));
 
 describe('App Component', () => {
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = shallow(<App />);
+  });
   it('renders App without crashing', () => {
-    shallow(<App />);
   });
 
   it('should contain Notifications, Header, Footer, Login', () => {
-    const wrapper = shallow(<App />);
 
     expect(wrapper.find('Notifications').length).toBe(1);
     expect(wrapper.find('Header').length).toBe(1);
@@ -24,8 +27,23 @@ describe('App Component', () => {
   });
 
   it('should not display CourseList', () => {
-    const wrapper = shallow(<App />);
     expect(wrapper.find('CourseList').length).toBe(0);
+  });
+  it('should have the default state displayDrawer set to false', () => {
+    expect(wrapper.state('displayDrawer')).toBe(false);
+  });
+
+  it('should set displayDrawer to true when calling handleDisplayDrawer', () => {
+    // Appeler handleDisplayDrawer
+    wrapper.instance().handleDisplayDrawer();
+    expect(wrapper.state('displayDrawer')).toBe(true);
+  });
+
+  it('should set displayDrawer to false when calling handleHideDrawer', () => {
+    // Modifier l'état pour qu'il soit true au départ
+    wrapper.setState({ displayDrawer: true });
+    wrapper.instance().handleHideDrawer();
+    expect(wrapper.state('displayDrawer')).toBe(false);
   });
 })
 
