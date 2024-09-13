@@ -1,6 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import App from './App';
+import { withContext } from 'shallow-with-context';
+import { userObject, defaultLogOut, AppContext } from '../App/AppContext';
 
 jest.mock('aphrodite', () => ({
   StyleSheet: {
@@ -48,17 +50,45 @@ describe('App Component', () => {
 })
 
 describe('App Component', () => {
-  it('should not display login', () => {
-    const wrapper = shallow(<App isLoggedIn={true}/>);
+  it('should not display Login when user is logged out', () => {
+    const contextValue = {
+      user: {
+        email: 'test@example.com',
+        isLoggedIn: false,
+      },
+      logOut: defaultLogOut,
+    };
+
+    const WrapperComponent = () => (
+      <AppContext.Provider value={contextValue}>
+        <App />
+      </AppContext.Provider>
+    );
+
+    const wrapper = shallow(<WrapperComponent />);
+
     expect(wrapper.find('Login').length).toBe(0);
   });
+});
 
   it('should display CourseList', () => {
-    const wrapper = shallow(<App isLoggedIn={true}/>);
+    const contextValue = {
+      user: {
+        email: 'test@example.com',
+        isLoggedIn: true,
+      },
+      logOut: defaultLogOut,
+    };
+
+    const WrapperComponent = () => (
+      <AppContext.Provider value={contextValue}>
+        <App />
+      </AppContext.Provider>
+    );
+    const wrapper = shallow(<WrapperComponent />);
+
     expect(wrapper.find('CourseList').length).toBe(1);
   });
-
-})
 
 // Mock alert function
 global.alert = jest.fn();
