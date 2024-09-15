@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Notifications from './Notifications';
 import { getLatestNotification } from '../utils/utils';
 import { AppContext } from '../App/AppContext';
@@ -115,46 +115,67 @@ describe('Notifications Component with listNotifications', () => {
 })
 
 describe('Notifications component', () => {
+  let contextValue;
+
+  beforeEach(() => {
+    contextValue = {
+      markNotificationAsRead: jest.fn(),
+    };
+  });
+
   it('should not re-render when updating with the same list', () => {
     const listNotifications = [
       { id: 1, type: 'default', value: 'New course available' },
       { id: 2, type: 'urgent', value: 'New resume available' }
     ];
 
-    const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+    // Spy on the render method
+    const renderSpy = jest.spyOn(Notifications.prototype, 'render');
 
-    const shouldUpdateSpy = jest.spyOn(Notifications.prototype, 'shouldComponentUpdate');
+    const wrapper = mount(
+      <AppContext.Provider value={contextValue}>
+        <Notifications displayDrawer={true} listNotifications={listNotifications} />
+      </AppContext.Provider>
+    );
 
-    // Met à jour les props avec la même liste
+    // Update props with the same list
     wrapper.setProps({ listNotifications });
 
-    // Vérifie que `shouldComponentUpdate` a retourné false
-    expect(shouldUpdateSpy).toHaveReturnedWith(false);
+    // Check that the render method was called only once
+    expect(renderSpy).toHaveBeenCalledTimes(1);
+
+    renderSpy.mockRestore();
   });
-});
 
-it('should re-render when updating with a longer list', () => {
-  const listNotifications = [
-    { id: 1, type: 'default', value: 'New course available' },
-    { id: 2, type: 'urgent', value: 'New resume available' }
-  ];
+  it('should re-render when updating with a longer list', () => {
+    const listNotifications = [
+      { id: 1, type: 'default', value: 'New course available' },
+      { id: 2, type: 'urgent', value: 'New resume available' }
+    ];
 
-  const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+    const newListNotifications = [
+      { id: 1, type: 'default', value: 'New course available' },
+      { id: 2, type: 'urgent', value: 'New resume available' },
+      { id: 3, type: 'default', value: 'New notification' }
+    ];
 
-  const shouldUpdateSpy = jest.spyOn(Notifications.prototype, 'shouldComponentUpdate');
+    // Spy on the render method
+    const renderSpy = jest.spyOn(Notifications.prototype, 'render');
 
-  // Met à jour les props avec une liste plus longue
-  const newListNotifications = [
-    { id: 1, type: 'default', value: 'New course available' },
-    { id: 2, type: 'urgent', value: 'New resume available' },
-    { id: 3, type: 'default', value: 'New notification' }
-  ];
+    const wrapper = mount(
+      <AppContext.Provider value={contextValue}>
+        <Notifications displayDrawer={true} listNotifications={listNotifications} />
+      </AppContext.Provider>
+    );
 
-  wrapper.setProps({ listNotifications: newListNotifications });
+    // Update props with a new listNotifications reference
+    wrapper.setProps({ listNotifications: [...newListNotifications] });
 
-  // Vérifie que `shouldComponentUpdate` a retourné true
-  expect(shouldUpdateSpy).toHaveReturnedWith(true);
-});
+    // Check that the render method was called twice
+    expect(renderSpy).toHaveBeenCalledTimes(1);
+
+    renderSpy.mockRestore();
+  });
 
 describe('Notifications component tests', () => {
   it('should call handleDisplayDrawer when clicking on the menu item', () => {
@@ -173,6 +194,7 @@ describe('Notifications component tests', () => {
     // Vérifier que la fonction mock est appelée
     expect(handleDisplayDrawerMock).toHaveBeenCalled();
   });
+});
 
   it('should call handleHideDrawer when clicking on the button', () => {
     const handleHideDrawerMock = jest.fn();

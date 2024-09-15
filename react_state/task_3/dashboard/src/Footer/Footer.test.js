@@ -1,8 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Footer from './Footer';
-import { withContext } from 'shallow-with-context';
-import { userObject, defaultLogOut, AppContext } from '../App/AppContext';
 
 // Mock pour Aphrodite pour empêcher l'injection de styles dans les tests
 jest.mock('aphrodite', () => ({
@@ -13,26 +11,16 @@ jest.mock('aphrodite', () => ({
 }));
 
 describe('Footer Component', () => {
+
   it('renders without crashing', () => {
     const wrapper = shallow(<Footer />);
     expect(wrapper.exists()).toBe(true);
   });
 
   it('renders the text "Copyright"', () => {
-    const contextValue = {
-      user: {
-        email: 'test@example.com',
-        isLoggedIn: false,
-      },
-      logOut: jest.fn(),
-    };
-
-    const wrapper = shallow(
-      <AppContext.Provider value={contextValue}>
-        <Footer />
-      </AppContext.Provider>
-    ).dive();
+    const wrapper = mount(<Footer />);
 
     expect(wrapper.text()).toContain('Copyright');
   });
+
 });
