@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Footer from './Footer';
 
 // Mock pour Aphrodite pour empêcher l'injection de styles dans les tests
@@ -18,7 +18,7 @@ describe('Footer Component', () => {
   });
 
   it('renders the text "Copyright"', () => {
-    const wrapper = shallow(<Footer />);
+    const wrapper = mount(<Footer />);
 
     expect(wrapper.text()).toContain('Copyright');
   });

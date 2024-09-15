@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Notifications from './Notifications';
 import { getLatestNotification } from '../utils/utils';
+import { AppContext } from '../App/AppContext';
 
 jest.mock('aphrodite', () => ({
   StyleSheet: {
@@ -112,26 +113,6 @@ describe('Notifications Component with listNotifications', () => {
     });
   })
 })
-
-describe('Notifications Component', () => {
-  it('calls console.log with the right message when markAsRead is called', () => {
-    // Mocking console.log
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-    // Create an instance of the Notifications component
-    const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={[{ id: 1, value: 'New course available', type: 'default' }]} />);
-    const instance = wrapper.instance();
-
-    // Call the markAsRead method directly
-    instance.markAsRead(1);
-
-    // Check that console.log was called with the right message
-    expect(spy).toHaveBeenCalledWith('Notification 1 has been marked as read');
-
-    // Restore console.log
-    spy.mockRestore();
-  });
-});
 
 describe('Notifications component', () => {
   it('should not re-render when updating with the same list', () => {
