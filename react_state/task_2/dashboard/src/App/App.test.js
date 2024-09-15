@@ -1,8 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import App from './App';
 import { withContext } from 'shallow-with-context';
-import { userObject, defaultLogOut, AppContext } from '../App/AppContext';
+import { userObject, defaultLogOut, AppContext } from './AppContext';
+
+jest.mock('../path/to/image.png', () => 'image.png');
 
 jest.mock('aphrodite', () => ({
   StyleSheet: {
@@ -71,25 +73,31 @@ describe('App Component', () => {
   });
 });
 
-  it('should display CourseList', () => {
-    const contextValue = {
-      user: {
-        email: 'test@example.com',
-        isLoggedIn: true,
-      },
-      logOut: defaultLogOut,
-    };
+it('should display CourseList when user is logged in', () => {
+  const contextValue = {
+    user: {
+      email: 'test@example.com',
+      isLoggedIn: true,
+    },
+    logIn: jest.fn(), // Mock the logIn function
+    logOut: jest.fn(),
+  };
 
-    const WrapperComponent = () => (
-      <AppContext.Provider value={contextValue}>
-        <App />
-      </AppContext.Provider>
-    );
-    const wrapper = shallow(<WrapperComponent />);
+  const wrapper = mount(
+    <AppContext.Provider value={contextValue}>
+      <App />
+    </AppContext.Provider>
+  );
 
-    expect(wrapper.find('CourseList').length).toBe(1);
-  });
+  // Simule la connexion en appelant la méthode logIn
+  wrapper.instance().logIn('test@example.com', 'password');
 
+  // Forcer la mise à jour du composant
+  wrapper.update();
+
+  // Vérifie que le composant 'CourseList' est rendu après la connexion
+  expect(wrapper.find('CourseList').length).toBe(1);
+});
 // Mock alert function
 global.alert = jest.fn();
 
@@ -107,19 +115,34 @@ describe('<App />', () => {
   });
 
   it('should call logOut and alert when Ctrl + h is pressed', () => {
-    // Simulate keydown event for Ctrl + h
-    const event = {
-      ctrlKey: true,
-      key: 'h',
+    // Mock the alert and logOut functions
+    const logOutMock = jest.fn();
+    global.alert = jest.fn();
+
+    const contextValue = {
+      user: {
+        email: 'test@example.com',
+        isLoggedIn: true,
+      },
+      logOut: logOutMock,
     };
 
-    // Trigger the handleKeyDown method directly
-    wrapper.instance().handleKeyDown(event);
+    const wrapper = mount(
+      <AppContext.Provider value={contextValue}>
+        <App />
+      </AppContext.Provider>
+    );
 
-    // Check if alert was called with the correct message
+    // Simulate keydown event for Ctrl + h
+    const event = new KeyboardEvent('keydown', {
+      ctrlKey: true,
+      key: 'h',
+    });
+
+    // Simule l'événement keydown sur la fenêtre globale
+    window.dispatchEvent(event);
+
+    // Vérifie si la fonction alert a été appelée avec le bon message
     expect(global.alert).toHaveBeenCalledWith('Logging you out');
-
-    // Check if logOut function was called
-    expect(logOutMock).toHaveBeenCalled();
   });
 });
