@@ -1,7 +1,7 @@
 import React from 'react'
 import { getFullYear, getFooterCopy } from '../utils/utils.js';
 import { StyleSheet, css } from 'aphrodite';
-import { AppContext } from '../App/AppContext.js';
+import { AppContext } from '../App/AppContext';
 
 export default function Footer() {
 	return (

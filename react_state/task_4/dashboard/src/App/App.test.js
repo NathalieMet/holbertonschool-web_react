@@ -146,4 +146,3 @@ describe('<App />', () => {
     expect(global.alert).toHaveBeenCalledWith('Logging you out');
   });
 });
-

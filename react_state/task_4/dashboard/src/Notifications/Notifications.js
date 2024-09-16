@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import NotificationItem from './NotificationItem';
 import PropTypes from 'prop-types';
 import NotificationItemShape from './NotificationItemShape';
 import { StyleSheet, css } from 'aphrodite';
 import { AppContext } from '../App/AppContext';
 
-class Notifications extends PureComponent {
+class Notifications extends Component {
 	constructor(props) {
 		super(props);
 		this.markAsRead = this.markAsRead.bind(this);
