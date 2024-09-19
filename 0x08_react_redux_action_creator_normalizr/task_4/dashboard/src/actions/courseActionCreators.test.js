@@ -1,3 +1,4 @@
+// courseActionCreators.test.js
 import { SELECT_COURSE, UNSELECT_COURSE } from './courseActionTypes';
 import { selectCourse, unselectCourse } from './courseActionCreators';
 
