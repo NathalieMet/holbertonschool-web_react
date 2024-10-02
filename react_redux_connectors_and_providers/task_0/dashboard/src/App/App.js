@@ -13,13 +13,13 @@ import { AppContext } from './AppContext.js';
 import { connect } from 'react-redux';
 
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
 	return {
-	  isLoggedIn: state.isUserLoggedIn, // Mappe le state isLoggedIn de uiReducer aux props du composant
+	  isLoggedIn: state.get('isUserLoggedIn'), // Utilisation de .get() pour accéder aux valeurs dans le Map Immutable
 	};
-  };
+};
 
-class App extends Component {
+export class App extends Component {
 
 	constructor(props) {
 		super(props);

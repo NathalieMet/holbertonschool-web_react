@@ -1,11 +1,13 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import App from './App';
+import ConnectedApp from './App';
 import { withContext } from 'shallow-with-context';
 import { userObject, defaultLogOut, AppContext } from './AppContext';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import uiReducer from '../reducers/uiReducer.js';
+import { App, mapStateToProps } from './App';
+import { fromJS } from 'immutable';
 
 const store = createStore(uiReducer);
 
@@ -24,7 +26,7 @@ describe('App Component', () => {
   beforeEach(() => {
     wrapper = mount(
       <Provider store={store}> {/* Enveloppe App avec le Provider */}
-        <App />
+        <ConnectedApp />
       </Provider>
     );
   });
@@ -41,22 +43,6 @@ describe('App Component', () => {
 
   it('should not display CourseList', () => {
     expect(wrapper.find('CourseList').length).toBe(0);
-  });
-  it('should have the default state displayDrawer set to false', () => {
-    expect(wrapper.state('displayDrawer')).toBe(false);
-  });
-
-  it('should set displayDrawer to true when calling handleDisplayDrawer', () => {
-    // Appeler handleDisplayDrawer
-    wrapper.instance().handleDisplayDrawer();
-    expect(wrapper.state('displayDrawer')).toBe(true);
-  });
-
-  it('should set displayDrawer to false when calling handleHideDrawer', () => {
-    // Modifier l'état pour qu'il soit true au départ
-    wrapper.setState({ displayDrawer: true });
-    wrapper.instance().handleHideDrawer();
-    expect(wrapper.state('displayDrawer')).toBe(false);
   });
 })
 
@@ -94,15 +80,9 @@ it('should display CourseList when user is logged in', () => {
 
   const wrapper = mount(
     <AppContext.Provider value={contextValue}>
-      <App />
+      <App isLoggedIn={true} />
     </AppContext.Provider>
   );
-
-  // Simule la connexion en appelant la méthode logIn
-  wrapper.instance().logIn('test@example.com', 'password');
-
-  // Forcer la mise à jour du composant
-  wrapper.update();
 
   // Vérifie que le composant 'CourseList' est rendu après la connexion
   expect(wrapper.find('CourseList').length).toBe(1);
@@ -153,5 +133,47 @@ describe('<App />', () => {
 
     // Vérifie si la fonction alert a été appelée avec le bon message
     expect(global.alert).toHaveBeenCalledWith('Logging you out');
+  });
+});
+
+describe('App Component', () => {
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = shallow(<App />);
+  });
+
+  it('should have the default state displayDrawer set to false', () => {
+    expect(wrapper.state('displayDrawer')).toBe(false);
+  });
+
+  it('should set displayDrawer to true when calling handleDisplayDrawer', () => {
+    // Appeler handleDisplayDrawer
+    wrapper.instance().handleDisplayDrawer();
+    expect(wrapper.state('displayDrawer')).toBe(true);
+  });
+
+  it('should set displayDrawer to false when calling handleHideDrawer', () => {
+    // Modifier l'état pour qu'il soit true au départ
+    wrapper.setState({ displayDrawer: true });
+    wrapper.instance().handleHideDrawer();
+    expect(wrapper.state('displayDrawer')).toBe(false);
+  });
+});
+
+describe('mapStateToProps', () => {
+  it('should return the correct props based on state', () => {
+    // Simule l'état Redux avec Immutable.js
+    const state = fromJS({
+      isUserLoggedIn: true,
+    });
+
+    // Appelle la fonction mapStateToProps avec l'état simulé
+    const expectedProps = {
+      isLoggedIn: true, // Ce qui est attendu
+    };
+
+    // Vérifie que mapStateToProps retourne l'objet attendu
+    expect(mapStateToProps(state)).toEqual(expectedProps);
   });
 });
