@@ -1,6 +1,6 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import Footer from './Footer';
+import { shallow } from 'enzyme';
+import { Footer } from './Footer';
 
 // Mock pour Aphrodite pour empêcher l'injection de styles dans les tests
 jest.mock('aphrodite', () => ({
@@ -18,7 +18,7 @@ describe('Footer Component', () => {
   });
 
   it('renders the text "Copyright"', () => {
-    const wrapper = mount(<Footer />);
+    const wrapper = shallow(<Footer />);
 
     expect(wrapper.text()).toContain('Copyright');
   });

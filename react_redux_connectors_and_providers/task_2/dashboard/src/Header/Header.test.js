@@ -1,8 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Header from './Header';
-import { userObject, defaultLogOut } from '../App/AppContext';
-import { withContext } from 'shallow-with-context';
+import { Header } from './Header';
 
 jest.mock('aphrodite', () => ({
   StyleSheet: {
@@ -14,28 +12,12 @@ jest.mock('aphrodite', () => ({
 describe('Header Component', () => {
 
   it('renders without crashing', () => {
-    const contextValue = {
-      user: userObject,
-      logOut: defaultLogOut,
-    };
-
-    const HeaderWithContext = withContext(Header, contextValue);
-      const wrapper = shallow(<HeaderWithContext />, { context: contextValue });
-
+      const wrapper = shallow(<Header user={null} />);
     expect(wrapper.exists()).toBe(true);
   });
 
-  it('renders img and h1 elements with context', () => {
-    const contextValue = {
-      user: {
-        email: 'test@example.com',
-        isLoggedIn: true,
-      },
-      logOut: jest.fn(),
-    };
-
-    const HeaderWithContext = withContext(Header, contextValue);
-      const wrapper = shallow(<HeaderWithContext />, { context:contextValue });
+  it('renders img and h1 elements', () => {
+      const wrapper = shallow(<Header user={null} />);
 
       // Check if img and h1 elements are rendered
       expect(wrapper.find('img').length).toBe(1);

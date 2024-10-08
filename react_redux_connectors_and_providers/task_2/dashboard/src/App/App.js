@@ -47,6 +47,7 @@ export class App extends Component {
 
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+		this.logOut = this.logOut.bind(this);
 	}
 
 	componentDidMount() {
@@ -86,7 +87,7 @@ export class App extends Component {
 
 	render() {
 		const { listNotifications, user } = this.state;
-		const { isLoggedIn, displayDrawer, displayNotificationDrawer, hideNotificationDrawer } = this.props;
+		const { isLoggedIn, displayDrawer, displayNotificationDrawer, hideNotificationDrawer, login } = this.props;
 
 		const listCourses = [
 			{ id: 1, name: 'ES6', credit: 60 },
@@ -100,6 +101,7 @@ export class App extends Component {
 				logOut: this.logOut,
 				listNotifications: this.state.listNotifications,
 				markNotificationAsRead: this.markNotificationAsRead,
+				logIn: login,
 			  }}>
 			<React.Fragment>
 				<Notifications listNotifications={listNotifications}
@@ -115,8 +117,7 @@ export class App extends Component {
 						</BodySectionWithMarginBottom>
 					) : (
 						<BodySectionWithMarginBottom title="Log in to continue">
-							<Login logIn={this.props.login}
-							className={css(styles.body)} />
+							<Login className={css(styles.body)} />
 						</BodySectionWithMarginBottom>
 					)}
 					<BodySection title="News from the School" children="Some news from the school! :D" />
@@ -138,6 +139,7 @@ App.propTypes = {
 	displayDrawer: PropTypes.bool,
 	displayNotificationDrawer: PropTypes.func.isRequired,
     hideNotificationDrawer: PropTypes.func.isRequired,
+	login: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
@@ -147,4 +149,3 @@ App.defaultProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-

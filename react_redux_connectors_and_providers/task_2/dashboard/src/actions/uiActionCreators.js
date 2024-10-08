@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 
 export const login = (email, password) => ({
   type: LOGIN,
-  payload: { user: { email, password } }
+  user: { email, password }
 });
 
 export const logout = (index) => ({
@@ -53,7 +53,7 @@ export const loginRequest = (email, password) => {
     dispatch(login(email, password));
 
     try {
-      const response = await fetch('././dist/login-success.json');
+      const response = await fetch('/login-success.json');
 
       if (!response.ok) {
         throw new Error('Network response was not ok');

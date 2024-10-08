@@ -1,25 +1,26 @@
 import React from 'react'
 import { getFullYear, getFooterCopy } from '../utils/utils.js';
 import { StyleSheet, css } from 'aphrodite';
-import { AppContext } from '../App/AppContext';
+import { connect } from 'react-redux';
 
-export default function Footer() {
+export const mapStateToProps = (state) => {
+	return {
+	  user: state.get('user'),
+	};
+};
+
+export function Footer({ user }) {
 	return (
-		<AppContext.Consumer>
-      {({ user }) => (
 		<footer className={css(styles.appFooter)}>
 			<div className={css(styles.trait)}></div>
 			Copyright {getFullYear()} - {getFooterCopy(true)}
-			{user.isLoggedIn && (
+			{user && user.get('isLoggedIn') && (
 				<p>
 					<a href="/contact">Contact us</a>
 				</p>
 			)}
 		</footer>
 	  )}
-		</AppContext.Consumer>
-	);
-}
 
 const styles = StyleSheet.create({
 	appFooter: {
@@ -36,3 +37,5 @@ const styles = StyleSheet.create({
 	}
 
 });
+
+export default connect(mapStateToProps)(Footer);

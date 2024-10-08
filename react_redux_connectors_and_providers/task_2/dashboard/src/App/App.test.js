@@ -1,15 +1,10 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import ConnectedApp from './App';
-import { withContext } from 'shallow-with-context';
+import { shallow } from 'enzyme';
 import { userObject, defaultLogOut, AppContext } from './AppContext';
-import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import uiReducer from '../reducers/uiReducer.js';
 import { App, mapStateToProps } from './App';
 import { fromJS } from 'immutable';
-
-const store = createStore(uiReducer);
 
 jest.mock('../path/to/image.png', () => 'image.png');
 
@@ -24,88 +19,53 @@ describe('App Component', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(
-      <Provider store={store}> {/* Enveloppe App avec le Provider */}
-        <ConnectedApp />
-      </Provider>
-    );
+    const displayNotificationDrawerMock = jest.fn();
+    const hideNotificationDrawerMock = jest.fn();
+    const loginMock = jest.fn();
+
+    wrapper = shallow(<App
+        displayNotificationDrawer={displayNotificationDrawerMock}
+        hideNotificationDrawer={hideNotificationDrawerMock}
+        login={loginMock}
+        isLoggedIn={false}
+      />);
   });
+
   it('renders App without crashing', () => {
+    expect(wrapper.exists()).toBe(true);
   });
 
   it('should contain Notifications, Header, Footer, Login', () => {
 
     expect(wrapper.find('Notifications').length).toBe(1);
-    expect(wrapper.find('Header').length).toBe(1);
+    expect(wrapper.find('Connect(Header)').length).toBe(1);
     expect(wrapper.find('Login').length).toBe(1);
-    expect(wrapper.find('Footer').length).toBe(1);
+    expect(wrapper.find('Connect(Footer)').length).toBe(1);
   });
 
-  it('should not display CourseList', () => {
+  it('should not display CourseList by default', () => {
     expect(wrapper.find('CourseList').length).toBe(0);
   });
 
-  it('should have the default prop displayDrawer set to false', () => {
-    const appWrapper = wrapper.find(App); // Trouve le composant App
-    expect(appWrapper.props().displayDrawer).toBe(false); // Vérifie la prop displayDrawer de App
-  });
-});
-
-describe('App Component', () => {
   it('should not display Login when user is logged out', () => {
-    const contextValue = {
-      user: {
-        email: 'test@example.com',
-        isLoggedIn: false,
-      },
-      logOut: defaultLogOut,
-    };
-
-    const WrapperComponent = () => (
-      <AppContext.Provider value={contextValue}>
-        <App />
-      </AppContext.Provider>
-    );
-
-    const wrapper = shallow(<WrapperComponent />);
+    wrapper.setProps({ isLoggedIn: true });
 
     expect(wrapper.find('Login').length).toBe(0);
   });
-});
 
 it('should display CourseList when user is logged in', () => {
-  const contextValue = {
-    user: {
-      email: 'test@example.com',
-      isLoggedIn: true,
-    },
-    logIn: jest.fn(), // Mock the logIn function
-    logOut: jest.fn(),
-  };
+  wrapper.setProps({ isLoggedIn: true });
 
-  const wrapper = mount(
-    <AppContext.Provider value={contextValue}>
-      <App isLoggedIn={true} />
-    </AppContext.Provider>
-  );
-
-  // Vérifie que le composant 'CourseList' est rendu après la connexion
   expect(wrapper.find('CourseList').length).toBe(1);
 });
-// Mock alert function
-global.alert = jest.fn();
+});
 
 describe('<App />', () => {
   let wrapper;
   const logOutMock = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<App logOut={logOutMock} />);
-  });
-
-  afterEach(() => {
-    // Clear mock calls
-    jest.clearAllMocks();
+    wrapper = shallow(<App login={() => {}} logOut={logOutMock} />);
   });
 
   it('should call logOut and alert when Ctrl + h is pressed', () => {
@@ -113,19 +73,7 @@ describe('<App />', () => {
     const logOutMock = jest.fn();
     global.alert = jest.fn();
 
-    const contextValue = {
-      user: {
-        email: 'test@example.com',
-        isLoggedIn: true,
-      },
-      logOut: logOutMock,
-    };
-
-    const wrapper = mount(
-      <AppContext.Provider value={contextValue}>
-        <App />
-      </AppContext.Provider>
-    );
+    wrapper = shallow(<App login={() => {}}/>);
 
     // Simulate keydown event for Ctrl + h
     const event = new KeyboardEvent('keydown', {

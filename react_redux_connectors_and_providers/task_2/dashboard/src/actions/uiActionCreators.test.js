@@ -10,7 +10,7 @@ describe('Action Creators', () => {
 	const password = 'somepassword';
     const expectedAction = {
       type: LOGIN,
-      payload: { user : { email, password }}
+      user : { email, password }
     };
     expect(login(email, password)).toEqual(expectedAction);
   });

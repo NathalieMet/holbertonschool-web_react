@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import img1 from '../assets/holberton-logo.jpg'
 import { StyleSheet, css } from 'aphrodite'
-import { AppContext } from '../App/AppContext';
+import { connect } from 'react-redux';
+import { logout } from '../actions/uiActionCreators';
 
-export default class Header extends Component {
+export const mapStateToProps = (state) => {
+	console.log('Entire State:', state.toJS());
+	return {
+	  user: state.get('user'),
+	};
+};
 
-	static contextType = AppContext;
+export const mapDispatchToProps = {
+	logout,
+};
+
+export class Header extends Component {
 
 	render() {
-		const { user, logOut } = this.context;
+		const { user, logout } = this.props;
 
 		return (
 			<React.Fragment>
@@ -19,13 +29,13 @@ export default class Header extends Component {
 					</div>
 					<div className={css(styles.trait)}></div>
 				</header>
-				{user.isLoggedIn && (
+				{user && user.get('isLoggedIn') && (
 					<p id='logoutSection'>
-						Welcome {user.email}{' '}
+						Welcome {user.get('email')}{' '}
 						<a
 							id="logoutclick"
 							href="#"
-							onClick={logOut}
+							onClick={logout}
 						>
 							(logout)
 						</a>
@@ -60,3 +70,5 @@ const styles = StyleSheet.create({
 		marginBottom: '2em'
 	}
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

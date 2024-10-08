@@ -34,4 +34,33 @@ describe('Reducer', () => {
 
 		expect(uiReducer(undefined, { type: DISPLAY_NOTIFICATION_DRAWER }).toJS()).toEqual(expectedState.toJS());
 	});
-});
+
+
+	it('verifies that the state returned by the uiReducer function, when the action LOGIN is passed, changes correctly the user and isuserloggedin property', () => {
+		const email = "test@example.com";
+
+		const expectedState = Map({
+			isNotificationDrawerVisible: false,
+			isUserLoggedIn: true,
+			user: Map({
+				email: email,
+				isLoggedIn: true})
+	});
+
+	const action = {
+		type: LOGIN,
+		user: {
+			email: email,
+			isLoggedIn: true
+		}
+	};
+
+	  const initialState = Map({
+		isNotificationDrawerVisible: false,
+		isUserLoggedIn: false,
+		user: Map({})
+	  });
+
+	  expect(uiReducer(initialState, action).toJS()).toEqual(expectedState.toJS());
+	})
+	});
