@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import NotificationItem from './NotificationItem';
 import PropTypes from 'prop-types';
-import NotificationItemShape from './NotificationItemShape';
 import { StyleSheet, css } from 'aphrodite';
 import { AppContext } from '../App/AppContext';
 import { connect } from 'react-redux';
-import { fetchNotifications } from '../actions/notificationActionCreators';
+import { fetchNotifications, markAsread } from '../actions/notificationActionCreators';
 
 export const mapStateToProps = (state) => {
 	return {
-		listNotifications: state.notifications.get('notifications').toJS(), // Convertit Immutable List en array
+		listNotifications: state.notifications.get('notifications'), // Convertit Immutable List en array
 	};
 };
 
@@ -26,15 +25,9 @@ class Notifications extends Component {
 
 	constructor(props) {
 		super(props);
-		this.markAsRead = this.markAsRead.bind(this);
 	  }
 
 	  static contextType = AppContext;
-
-	  markAsRead(id) {
-		const { markNotificationAsRead } = this.context;
-		markNotificationAsRead(id);
-	}
 
 	render() {
 		const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer } = this.props;
@@ -43,6 +36,7 @@ class Notifications extends Component {
 		console.log('Close button has been clicked');
 	};
 
+	console.log("listnotification:", listNotifications.valueSeq())
 	return (
 		<React.Fragment>
 			{!displayDrawer && (
@@ -57,17 +51,16 @@ class Notifications extends Component {
 					)}
 					<button data-testid='close-button' onClick={() => { handleHideDrawer(); handleClick(); }} className={css(styles.closeButton)} aria-label='Close'>X</button>
 					<ul className={css(styles.list)}>
-						{listNotifications.length > 0 ? (
-							listNotifications.map(({ id, html, type, value }) => (
+						{listNotifications.size > 0 ? (
+							listNotifications.map(({ guid, isRead, type, value }, index) => (
 								<NotificationItem
-									key={id}
-									id={id}
-									html={html}
+								key={guid || index}
+									guid={guid}
+									isRead={isRead}
 									type={type}
 									value={value}
-									markAsRead={() => this.markAsRead(id)}
 								/>
-							))
+							)).valueSeq()
 						) : (
 							<li>No new notification for now</li>
 						)}
@@ -155,7 +148,6 @@ const styles = StyleSheet.create({
 
 Notifications.propTypes = {
 	displayDrawer: PropTypes.bool,
-	listNotifications: PropTypes.arrayOf(NotificationItemShape),
 	handleDisplayDrawer: PropTypes.func,
 	handleHideDrawer: PropTypes.func,
 	markNotificationAsRead: PropTypes.func,
@@ -169,4 +161,5 @@ Notifications.defaultProps = {
 	markNotificationAsRead: () => {},
 };
 
-export default connect(mapStateToProps)(Notifications);
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+

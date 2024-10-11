@@ -1,5 +1,6 @@
-import { MARK_AS_READ, SET_TYPE_FILTER, NotificationTypeFilters } from './notificationActionTypes';
+import { MARK_AS_READ, SET_TYPE_FILTER, NotificationTypeFilters, SET_LOADING_STATE, FETCH_NOTIFICATIONS_SUCCESS } from './notificationActionTypes';
 import { bindActionCreators } from 'redux';
+import { getNormalizedData } from '../schema/notifications'
 
 export const markAsread = (index) => ({
 	type: MARK_AS_READ,
@@ -42,8 +43,10 @@ export const markAsread = (index) => ({
         }
 
         const result = await response.json();
+        const normalizedResult = getNormalizedData(result);
+        console.log("response: ", normalizedResult)
 
-        dispatch(setNotifications(result));
+        dispatch(setNotifications(normalizedResult));
       } catch (error) {
         console.error('Fetch error:', error);
       } finally {

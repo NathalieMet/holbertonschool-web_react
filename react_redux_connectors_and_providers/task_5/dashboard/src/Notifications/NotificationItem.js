@@ -2,20 +2,22 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Notifications from './Notifications';
 import { StyleSheet, css } from 'aphrodite';
+import { markAsread } from '../actions/notificationActionCreators';
+import { connect } from 'react-redux';
+
+export const mapDispatchToProps = {
+	markAsread,
+};
+
 
 class NotificationItem extends PureComponent {
   render() {
-		const { id, type, html, value, markAsRead } = this.props;
-    if (html) {
-			return (
-				<li className={css(type === 'urgent' ? styles.urgent : styles.default)} data-notification-type={type} dangerouslySetInnerHTML={html} onClick={() => markAsRead(id)}></li>
-			);
-		}
-
+	  const { guid, type, html, value, isRead } = this.props;
+	  //console.log("mark as read guid:" , this.props.markAsread(guid))
 		return (
-			<li className={css(type === 'urgent' ? styles.urgent : styles.default)} data-notification-type={type} onClick={() => markAsRead(id)}>{value}</li>
+			<li className={css(type === 'urgent' ? styles.urgent : styles.default)} data-notification-type={type} onClick={() => this.props.markAsread(guid)}>{value}</li>
 		);
-	}
+}
 }
 
 const styles = StyleSheet.create({
@@ -54,4 +56,4 @@ NotificationItem.defaultProps = {
   type: 'default',
 };
 
-export default NotificationItem
+export default connect(null, mapDispatchToProps)(NotificationItem)

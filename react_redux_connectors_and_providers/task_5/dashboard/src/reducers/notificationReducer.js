@@ -2,24 +2,32 @@ import { Map, List } from 'immutable';
 import { MARK_AS_READ, SET_TYPE_FILTER, SET_LOADING_STATE, FETCH_NOTIFICATIONS_SUCCESS } from '../actions/notificationActionTypes';
 
 const initialState = Map({
-  loading: false,
-  notifications: List(),
+	loading: false,
+	notifications: Map({}),
 });
 
 const notificationReducer = (state = initialState, action) => {
 	switch (action.type) {
-	  case SET_LOADING_STATE :
-		return state.set('loading', action.boolean);
+		case SET_LOADING_STATE:
+			return state.set('loading', action.boolean);
 
-	  case FETCH_NOTIFICATIONS_SUCCESS:
-		return state.mergeDeep({
-			notifications: List(action.data), // Mise à jour de l'état notifications avec les données de l'API
-		  });
+		case FETCH_NOTIFICATIONS_SUCCESS:
+			console.log('Normalized notifications:', action.data);
+			const notifications = action.data.entities.messages || {};
+			return state.mergeDeep({
+				notifications: Map(notifications), // Insère la liste des notifications dans l'état
+			});
 
-	  default:
-		return state;
+		case MARK_AS_READ:
+			console.log('mark as read:', action.index);
+			console.log('notifications in reducer:', state.notifications);
+			const messageId = action.index;
+			return state.setIn(['notifications', messageId, 'isRead'], true);
+
+		default:
+			return state;
 	}
-  }
+}
 
-  export default notificationReducer;
+export default notificationReducer;
 

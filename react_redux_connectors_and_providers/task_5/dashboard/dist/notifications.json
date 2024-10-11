@@ -184,7 +184,7 @@
 	  },
 	  "context": {
 		"guid": "1d3918d0-67e6-44a4-9031-72d7750234de",
-		"isRead": true,
+		"isRead": false,
 		"type": "default",
 		"value": "Velit laoreet id donec ultrices tincidunt arcu non. Aliquet eget sit amet tellus cras adipiscing"
 	  }
@@ -260,7 +260,7 @@
 	  },
 	  "context": {
 		"guid": "4cc5bc3a-98fe-4392-b97d-6a41da1d944b",
-		"isRead": false,
+		"isRead": true,
 		"type": "default",
 		"value": "Leo vel fringilla est ullamcorper. Volutpat consequat mauris nunc congue"
 	  }

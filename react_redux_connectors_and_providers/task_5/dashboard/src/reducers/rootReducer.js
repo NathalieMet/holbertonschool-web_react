@@ -5,8 +5,8 @@ import notificationReducer from './notificationReducer.js';
 
 const rootReducer = combineReducers({
 	ui: uiReducer,
-	courses: courseReducer,
 	notifications: notificationReducer,
+	courses: courseReducer,
 });
 
 export default rootReducer;
